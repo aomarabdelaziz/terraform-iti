@@ -18,9 +18,6 @@ resource "aws_instance" "public-ec2-instances" {
       "sudo systemctl restart nginx",
     ]
 
-    provisioner "local-exec" {
-      command = "echo public-${count.index}: ${self.public_ip} >> ips.txt"
-    }
 
 
     connection {
@@ -33,6 +30,11 @@ resource "aws_instance" "public-ec2-instances" {
     }
 
   }
+
+  provisioner "local-exec" {
+    command = "echo public-${count.index}: ${self.public_ip} >> ips.txt"
+  }
+
 
   tags = {
     Name = var.public-ec2-instances[count.index]
